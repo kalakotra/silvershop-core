@@ -54,7 +54,9 @@ class SteppedCheckoutExtension extends Extension
         //initiate extensions
         CheckoutPageController::add_extension(SteppedCheckoutExtension::class);
         foreach ($steps as $classname) {
-            CheckoutPageController::add_extension($classname);
+            if (class_exists($classname)) {
+                CheckoutPageController::add_extension($classname);
+            }
         }
     }
 

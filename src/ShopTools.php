@@ -84,7 +84,7 @@ class ShopTools
             return $session;
         }
 
-        if (Controller::has_curr() && ($httpRequest = Controller::curr()->getRequest())) {
+        if (($controller = Controller::curr()) && ($httpRequest = $controller->getRequest())) {
             return $httpRequest->getSession();
         }
 

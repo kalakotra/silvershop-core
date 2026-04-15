@@ -4,9 +4,9 @@ namespace SilverShop\Tasks;
 
 use SilverShop\Checkout\OrderEmailNotifier;
 use SilverShop\Model\Order;
-use SilverStripe\Control\Director;
-use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\PolyExecution\PolyOutput;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * ShopEmailPreviewTask
@@ -22,11 +22,11 @@ use SilverStripe\Dev\BuildTask;
  */
 class ShopEmailPreviewTask extends BuildTask
 {
-    protected $title = 'Preview Shop Emails';
+    protected string $title = 'Preview Shop Emails';
 
-    protected $description = 'Previews shop emails';
+    protected static string $description = 'Previews shop emails';
 
-    protected $previewableEmails = [
+    protected array $previewableEmails = [
         'Confirmation',
         'Receipt',
         'AdminNotification',
@@ -34,29 +34,26 @@ class ShopEmailPreviewTask extends BuildTask
         'StatusChange'
     ];
 
-    /**
-     * @param HTTPRequest $request
-     */
-    public function run($request): void
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
-        $email = $request->remaining();
-        $params = $request->allParams();
-        $url = Director::absoluteURL("dev/{$params['Action']}/{$params['TaskName']}");
-        $debug = true;
+        $email = $input->getOption('email');
+        $debug = $input->getOption('debug');
 
-        if ($request->getVar('debug')) {
-            $debug = $request->getVar('debug');
+        if (!$email) {
+            $output->writeln('Choose email via --email option. Available values:');
+            foreach ($this->previewableEmails as $method) {
+                $output->writeln('- ' . $method);
+            }
+            return 0;
         }
-
-        echo '<h2>Choose Email</h2>';
-        echo '<ul>';
-        foreach ($this->previewableEmails as $method) {
-            echo '<li><a href="' . $url . '/' . $method . '">' . $method . '</a></li>';
-        }
-        echo '</ul><hr>';
 
         if ($email && in_array($email, $this->previewableEmails)) {
             $order = Order::get()->first();
+            if (!$order) {
+                $output->writeln('No order found to preview email with.');
+                return 1;
+            }
+
             $notifier = OrderEmailNotifier::create($order);
 
             if ($debug) {
@@ -65,14 +62,15 @@ class ShopEmailPreviewTask extends BuildTask
 
             $method = "send$email";
 
-            if ($email == 'StatusChange') {
-                echo $notifier->$method('This is a test title', 'This is a test note');
+            if ($email === 'StatusChange') {
+                $output->writeln((string)$notifier->$method('This is a test title', 'This is a test note'));
             } else {
-                echo $notifier->$method();
+                $output->writeln((string)$notifier->$method());
             }
+            return 0;
         }
-        //this is a little hardcore way of ending the party,
-        //but as it's only used for styling, it works for now
-        die;
+
+        $output->writeln('Invalid email type.');
+        return 1;
     }
 }

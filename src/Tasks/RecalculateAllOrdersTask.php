@@ -15,9 +15,9 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class RecalculateAllOrdersTask extends BuildTask
 {
-    protected $title = 'Recalculate All Orders';
+    protected string $title = 'Recalculate All Orders';
 
-    protected $description = 'Runs all price calculation functions on all orders.';
+    protected static string $description = 'Runs all price calculation functions on all orders.';
 
     protected function execute(InputInterface $input, PolyOutput $output): int
     {

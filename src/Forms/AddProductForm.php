@@ -16,7 +16,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\NumericField;
-use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\Validation\RequiredFieldsValidator;
 
 /**
  * @package shop
@@ -145,7 +145,7 @@ class AddProductForm extends Form
 
     protected function getFormValidator()
     {
-        return RequiredFields::create(
+        return RequiredFieldsValidator::create(
             [
                 'Quantity',
             ]

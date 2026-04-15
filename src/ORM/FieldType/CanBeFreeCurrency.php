@@ -9,11 +9,11 @@ use SilverStripe\ORM\FieldType\DBCurrency;
  */
 class CanBeFreeCurrency extends DBCurrency
 {
-    public function Nice(): float|string
+    public function Nice(): string
     {
         if ($this->value == 0) {
             return _t('SilverShop\ORM\FieldType\ShopCurrency.Free', '<span class="free">FREE</span>');
         }
-        return parent::Nice();
+        return (string)parent::Nice();
     }
 }

@@ -2,11 +2,11 @@
 
 namespace SilverShop\Forms;
 
-use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\Validation\RequiredFieldsValidator;
 use SilverStripe\Omnipay\GatewayFieldsFactory;
 use SilverStripe\Omnipay\GatewayInfo;
 
-class OrderActionsFormValidator extends RequiredFields
+class OrderActionsFormValidator extends RequiredFieldsValidator
 {
     public function php($data): bool
     {

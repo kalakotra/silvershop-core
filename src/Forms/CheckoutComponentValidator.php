@@ -3,14 +3,14 @@
 namespace SilverShop\Forms;
 
 use SilverShop\Checkout\CheckoutComponentConfig;
-use SilverStripe\Forms\RequiredFields;
-use SilverStripe\ORM\ValidationException;
+use SilverStripe\Core\Validation\ValidationException;
+use SilverStripe\Forms\Validation\RequiredFieldsValidator;
 
 /**
  * Order validator makes sure everything is set correctly
  * and in place before an order can be placed.
  */
-class CheckoutComponentValidator extends RequiredFields
+class CheckoutComponentValidator extends RequiredFieldsValidator
 {
     protected CheckoutComponentConfig $config;
 

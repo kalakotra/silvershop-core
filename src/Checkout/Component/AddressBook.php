@@ -10,7 +10,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\OptionsetField;
 use SilverStripe\i18n\i18nEntityProvider;
 use SilverStripe\ORM\ValidationException;
-use SilverStripe\ORM\ValidationResult;
+use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Security\Security;
 use SilverStripe\View\Requirements;
 

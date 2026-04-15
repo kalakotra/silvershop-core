@@ -18,9 +18,9 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class CustomersToGroupTask extends BuildTask
 {
-    protected $title = 'Customers to Group';
+    protected string $title = 'Customers to Group';
 
-    protected $description = 'Adds all customers to an assigned group.';
+    protected static string $description = 'Adds all customers to an assigned group.';
 
     protected function execute(InputInterface $input, PolyOutput $output): int
     {

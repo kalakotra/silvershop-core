@@ -13,7 +13,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\PasswordField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\ValidationException;
-use SilverStripe\ORM\ValidationResult;
+use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Security\IdentityStore;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\PasswordValidator;

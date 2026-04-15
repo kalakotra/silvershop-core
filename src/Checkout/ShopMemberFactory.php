@@ -5,7 +5,7 @@ namespace SilverShop\Checkout;
 use SilverShop\Extension\MemberExtension;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\ValidationException;
-use SilverStripe\ORM\ValidationResult;
+use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Security\Member;
 
 class ShopMemberFactory

@@ -10,9 +10,9 @@ use Symfony\Component\Console\Input\InputInterface;
 
 class CalculateProductPopularity extends BuildTask
 {
-    protected $title = 'Calculate Product Sales Popularity';
+    protected string $title = 'Calculate Product Sales Popularity';
 
-    protected $description = 'Count up total sales quantites for each product';
+    protected static string $description = 'Count up total sales quantites for each product';
 
     private static string $number_sold_calculation_type = 'SUM'; //SUM or COUNT
 

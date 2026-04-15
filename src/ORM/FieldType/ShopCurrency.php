@@ -42,7 +42,7 @@ class ShopCurrency extends DBCurrency
         'NiceOrEmpty' => 'HTMLFragment',
     ];
 
-    public function Nice(): string|float
+    public function Nice(): string
     {
         if (self::config()->get('use_free_text') && $this->value == 0) {
             return _t(__CLASS__ . '.Free', 'Free');
@@ -88,7 +88,7 @@ class ShopCurrency extends DBCurrency
         return $val;
     }
 
-    public function NiceOrEmpty(): string|float
+    public function NiceOrEmpty(): string
     {
         if ($this->value != 0) {
             return $this->Nice();

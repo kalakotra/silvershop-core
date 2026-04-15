@@ -22,9 +22,9 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class PopulateShopTask extends BuildTask
 {
-    protected $title = 'Populate Shop';
+    protected string $title = 'Populate Shop';
 
-    protected $description = 'Creates dummy account page, products, checkout page, terms page.';
+    protected static string $description = 'Creates dummy account page, products, checkout page, terms page.';
 
     private static string $segment = 'PopulateShopTask';
 

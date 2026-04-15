@@ -17,6 +17,7 @@ use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\Dev\Debug;
 use SilverStripe\ErrorPage\ErrorPage;
+use SilverStripe\Model\ModelData;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Permission;
 use SilverStripe\Security\SecurityToken;
@@ -295,7 +296,7 @@ class ShoppingCartController extends Controller
     /**
      * Displays order info and cart contents.
      */
-    public function debug()
+    public function debug(): ModelData|string
     {
         if (Director::isDev() || Permission::check('ADMIN')) {
             //TODO: allow specifying a particular id to debug
@@ -304,8 +305,10 @@ class ShoppingCartController extends Controller
             $content = ($order instanceof Order)
                 ? Debug::text($order)
                 : 'Cart has not been created yet. Add a product.';
-            return ['Content' => $content];
+            return $this->customise(['Content' => $content]);
         }
+
+        return '';
     }
 
     /**

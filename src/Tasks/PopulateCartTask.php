@@ -17,9 +17,9 @@ use Symfony\Component\Console\Input\InputInterface;
  */
 class PopulateCartTask extends BuildTask
 {
-    protected $title = 'Populate Cart';
+    protected string $title = 'Populate Cart';
 
-    protected $description = 'Add 5 random Live products or variations to cart, with random quantities between 1 and 10.';
+    protected static string $description = 'Add 5 random Live products or variations to cart, with random quantities between 1 and 10.';
 
     protected function execute(InputInterface $input, PolyOutput $output): int
     {

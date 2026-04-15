@@ -24,12 +24,12 @@ class CartCleanupTask extends BuildTask
     /**
      * @var string
      */
-    protected $title = 'Delete abandoned carts';
+    protected string $title = 'Delete abandoned carts';
 
     /**
      * @var string
      */
-    protected $description = 'Deletes abandoned carts.';
+    protected static string $description = 'Deletes abandoned carts.';
 
     protected function execute(InputInterface $input, PolyOutput $output): int
     {

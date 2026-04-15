@@ -3,14 +3,13 @@
 namespace SilverShop\Model;
 
 use SilverShop\ORM\FieldType\ShopCountry;
+use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\FieldType\DBHTMLText;
 use SilverStripe\ORM\HasManyList;
-use SilverStripe\ORM\ValidationResult;
 use SilverStripe\Security\Member;
 use SilverStripe\SiteConfig\SiteConfig;
 
@@ -229,9 +228,9 @@ class Address extends DataObject
         return $this->toString();
     }
 
-    public function forTemplate(): DBHTMLText
+    public function forTemplate(): string
     {
-        return $this->renderWith(__CLASS__);
+        return (string)$this->renderWith(__CLASS__);
     }
 
     /**
