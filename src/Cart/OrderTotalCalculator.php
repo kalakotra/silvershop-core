@@ -4,7 +4,7 @@ namespace SilverShop\Cart;
 
 use ErrorException;
 use Exception;
-use Monolog\Logger;
+use InvalidArgumentException;
 use Psr\Container\NotFoundExceptionInterface;
 use SilverShop\Model\Order;
 use SilverStripe\Core\ClassInfo;
@@ -29,7 +29,7 @@ class OrderTotalCalculator
     protected Order $order;
 
     /**
-     * @var Logger
+        * @var \Psr\Log\LoggerInterface
      */
     public $logger;
 
@@ -130,7 +130,7 @@ class OrderTotalCalculator
     public function getModifier($className, $forcecreate = false)
     {
         if (!ClassInfo::exists($className)) {
-            user_error("Modifier class \"$className\" does not exist.");
+            throw new InvalidArgumentException("Modifier class \"$className\" does not exist.");
         }
         //search for existing
         $modifier = $className::get()

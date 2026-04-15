@@ -5,14 +5,11 @@ namespace SilverShop\Extension;
 use SilverShop\Checkout\OrderProcessor;
 use SilverShop\Model\Order;
 use SilverStripe\Core\Extension;
-use SilverStripe\Omnipay\Model\Payment;
-use SilverStripe\Omnipay\Service\ServiceResponse;
 
 /**
- * Customisations to {@link Payment} specifically for the shop module.
+ * Customisations to the payment model specifically for the shop module.
  * @property int $OrderID
  * @method Order Order()
- * @extends Extension<(Payment & static)>
  */
 class PaymentExtension extends Extension
 {
@@ -20,22 +17,22 @@ class PaymentExtension extends Extension
         'Order' => Order::class,
     ];
 
-    public function onAwaitingAuthorized(ServiceResponse $response): void
+    public function onAwaitingAuthorized($response): void
     {
         $this->placeOrder();
     }
 
-    public function onAwaitingCaptured(ServiceResponse $response): void
+    public function onAwaitingCaptured($response): void
     {
         $this->placeOrder();
     }
 
-    public function onAuthorized(ServiceResponse $response): void
+    public function onAuthorized($response): void
     {
         $this->placeOrder();
     }
 
-    public function onCaptured(ServiceResponse $response): void
+    public function onCaptured($response): void
     {
         // ensure order is being reloaded from DB, to prevent dealing with stale data!
         /**

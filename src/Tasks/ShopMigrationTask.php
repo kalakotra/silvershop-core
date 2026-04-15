@@ -4,8 +4,8 @@ namespace SilverShop\Tasks;
 
 use SilverShop\Model\Modifiers\Shipping\Base;
 use SilverShop\Model\Order;
+use SilverShop\Page\Product;
 use SilverStripe\Dev\MigrationTask;
-use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 
 /**
@@ -72,7 +72,7 @@ You may want to run the CartCleanupTask before migrating if you want to discard 
     {
         $database = DB::get_conn();
         //if BasePrice has no values, but Price does, then copy from Price
-        if ($database->hasTable('Product') && !DataObject::get_one('Product', '"BasePrice" > 0')) {
+        if ($database->hasTable('Product') && !Product::get()->filter('BasePrice:GreaterThan', 0)->first()) {
             //TODO: warn against lost data
             DB::query('UPDATE "Product" SET "BasePrice" = "Price";');
             DB::query('UPDATE "Product_Live" SET "BasePrice" = "Price";');
@@ -162,6 +162,10 @@ You may want to run the CartCleanupTask before migrating if you want to discard 
             $modifier2->write();
             $order->AddedTax = null;
         }
+    }
+
+    public function down(): void
+    {
     }
 
     /**

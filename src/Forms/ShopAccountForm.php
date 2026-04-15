@@ -9,10 +9,11 @@ use SilverShop\Page\CheckoutPage;
 use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Control\HTTPResponse;
 use SilverStripe\Core\Config\Config;
+use SilverStripe\Forms\Validation\RequiredFieldsValidator;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
-use SilverStripe\ORM\ValidationException;
+use SilverStripe\Core\Validation\ValidationException;
 use SilverStripe\Security\Security;
 
 /**
@@ -27,8 +28,7 @@ class ShopAccountForm extends Form
         if ($member && $member->exists()) {
             $fields = $member->getMemberFormFields();
             $fields->removeByName('Password');
-            $requiredFields = $member->getValidator();
-            $requiredFields->addRequiredField('Surname');
+            $requiredFields = RequiredFieldsValidator::create(['Surname']);
         } else {
             $fields = FieldList::create();
         }

@@ -2,16 +2,16 @@
 
 namespace SilverShop\Forms;
 
+use InvalidArgumentException;
 use SilverShop\Cart\ShoppingCart;
 use SilverShop\Model\Buyable;
 use SilverShop\Model\OrderItem;
 use SilverShop\ShopTools;
 use SilverStripe\Forms\HiddenField;
 use SilverStripe\Forms\NumericField;
-use SilverStripe\ORM\FieldType\DBHTMLText;
-use SilverStripe\View\ViewableData;
+use SilverStripe\Model\ModelData;
 
-class ShopQuantityField extends ViewableData
+class ShopQuantityField extends ModelData
 {
     protected OrderItem $item;
 
@@ -46,7 +46,7 @@ class ShopQuantityField extends ViewableData
             $this->buyable = $object->Buyable();
         }
         if (!$this->item) {
-            user_error('ShopQuantityField: no item or product passed to constructor.');
+            throw new InvalidArgumentException('ShopQuantityField: no item or product passed to constructor.');
         }
         $this->parameters = $parameters;
         //TODO: include javascript for easy update
@@ -107,9 +107,9 @@ class ShopQuantityField extends ViewableData
         return $this->item->removeLink();
     }
 
-    public function forTemplate(): DBHTMLText
+    public function forTemplate(): string
     {
-        return $this->renderWith($this->template);
+        return (string) $this->renderWith($this->template);
     }
 
     /**

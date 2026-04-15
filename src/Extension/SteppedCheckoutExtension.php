@@ -19,7 +19,7 @@ use SilverStripe\Core\Extension;
  *
  * @package    shop
  * @subpackage steppedcheckout
- * @extends Extension<static>
+ * @extends Extension<CheckoutPageController>
  */
 class SteppedCheckoutExtension extends Extension
 {

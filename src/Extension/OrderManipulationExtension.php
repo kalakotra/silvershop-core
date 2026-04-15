@@ -5,8 +5,6 @@ namespace SilverShop\Extension;
 use SilverShop\Cart\ShoppingCart;
 use SilverShop\Forms\OrderActionsForm;
 use SilverShop\Model\Order;
-use SilverShop\Page\AccountPageController;
-use SilverShop\Page\CheckoutPageController;
 use SilverShop\ShopTools;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\HTTPRequest;
@@ -16,7 +14,7 @@ use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Extension;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\DataObject;
-use SilverStripe\ORM\PaginatedList;
+use SilverStripe\Model\List\PaginatedList;
 use SilverStripe\Security\Security;
 
 /**
@@ -24,7 +22,6 @@ use SilverStripe\Security\Security;
  * order that has been previously placed.
  *
  * @property Controller $owner
- * @extends Extension<((AccountPageController & static) | (CheckoutPageController & static))>
  */
 class OrderManipulationExtension extends Extension
 {
@@ -132,7 +129,7 @@ class OrderManipulationExtension extends Extension
 
         $order = $this->orderfromid();
         if (!$order instanceof DataObject) {
-            return $this->owner->httpError(404, 'Order could not be found');
+            throw new HTTPResponse_Exception('Order could not be found', 404);
         }
 
         return [

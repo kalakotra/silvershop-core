@@ -3,6 +3,8 @@
 namespace SilverShop\Cart;
 
 use Exception;
+use LogicException;
+use RuntimeException;
 use SilverShop\Extension\OrderManipulationExtension;
 use SilverShop\Extension\ProductVariationsExtension;
 use SilverShop\Model\Buyable;
@@ -79,7 +81,7 @@ class ShoppingCart
     public function setCurrent(Order $order): static
     {
         if (!$order->IsCart()) {
-            trigger_error('Passed Order object is not cart status', E_ERROR);
+            throw new RuntimeException('Passed Order object is not cart status');
         }
         $this->order = $order;
         $session = ShopTools::getSession();
@@ -497,11 +499,11 @@ class ShoppingCart
     //singleton protection
     public function __clone()
     {
-        trigger_error('Clone is not allowed.', E_USER_ERROR);
+        throw new LogicException('Clone is not allowed.');
     }
 
     public function __wakeup()
     {
-        trigger_error('Unserializing is not allowed.', E_USER_ERROR);
+        throw new LogicException('Unserializing is not allowed.');
     }
 }

@@ -14,12 +14,12 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\LabelField;
 use SilverStripe\Forms\ListboxField;
+use SilverStripe\Core\Validation\ValidationException;
+use SilverStripe\Model\ArrayData;
 use SilverStripe\ORM\DataList;
 use SilverStripe\ORM\HasManyList;
 use SilverStripe\ORM\ManyManyList;
-use SilverStripe\ORM\ValidationException;
 use SilverStripe\Versioned\Versioned;
-use SilverStripe\View\ArrayData;
 use Symbiote\GridFieldExtensions\GridFieldOrderableRows;
 
 /**
@@ -159,7 +159,9 @@ class ProductVariationsExtension extends Extension
                     foreach ($avalues as $value) {
                         $newvariation = $oldvariation->duplicate();
                         $newvariation->InternalItemID = $this->owner->InternalItemID . '-' . $newvariation->ID;
-                        $newvariation->AttributeValues()->addMany($oldvalues);
+                        foreach ($oldvalues as $oldvalue) {
+                            $newvariation->AttributeValues()->add($oldvalue);
+                        }
                         $newvariation->AttributeValues()->add($value);
                         $newvariation->write();
                         $existingvariations->add($newvariation);

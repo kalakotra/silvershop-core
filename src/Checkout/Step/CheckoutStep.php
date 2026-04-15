@@ -3,13 +3,14 @@
 namespace SilverShop\Checkout\Step;
 
 use SilverShop\Extension\SteppedCheckoutExtension;
+use SilverShop\Page\CheckoutPageController;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Extension;
 
 /**
  * Base class for building steps for checkout processing
- * @extends Extension<static>
+ * @extends Extension<CheckoutPageController>
  */
 class CheckoutStep extends Extension
 {

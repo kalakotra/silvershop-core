@@ -2,9 +2,9 @@
 
 namespace SilverShop\Page;
 
+use RuntimeException;
 use Page;
 use SilverStripe\Control\Controller;
-use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
 
 /**
@@ -53,13 +53,12 @@ class AccountPage extends Page
         );
     }
 
-    protected static function get_if_account_page_exists(): ?DataObject
+    protected static function get_if_account_page_exists(): ?self
     {
-        if ($page = DataObject::get_one(self::class)) {
+        if ($page = self::get()->first()) {
             return $page;
         }
-        user_error(_t(__CLASS__ . '.NoPage', 'No AccountPage was found. Please create one in the CMS!'), E_USER_ERROR);
-        return null; // just to keep static analysis happy
+        throw new RuntimeException(_t(__CLASS__ . '.NoPage', 'No AccountPage was found. Please create one in the CMS!'));
     }
 
     /**

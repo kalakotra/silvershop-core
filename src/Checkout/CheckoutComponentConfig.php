@@ -2,14 +2,15 @@
 
 namespace SilverShop\Checkout;
 
+use InvalidArgumentException;
 use SilverShop\Checkout\Component\CheckoutComponent;
 use SilverShop\Checkout\Component\CheckoutComponentNamespaced;
 use SilverShop\Model\Order;
+use SilverStripe\Core\Validation\ValidationException;
+use SilverStripe\Core\Validation\ValidationResult;
 use SilverStripe\Core\Injector\Injectable;
 use SilverStripe\Forms\FieldList;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\ValidationException;
-use SilverStripe\ORM\ValidationResult;
+use SilverStripe\Model\List\ArrayList;
 
 /**
  * @package shop
@@ -123,7 +124,7 @@ class CheckoutComponentConfig
             if ($cfields = $component->getFormFields($this->order)) {
                 $fieldList->merge($cfields);
             } else {
-                user_error('getFields on  ' . get_class($component) . ' must return a FieldList');
+                throw new InvalidArgumentException('getFields on ' . get_class($component) . ' must return a FieldList');
             }
         }
         return $fieldList;
@@ -189,7 +190,7 @@ class CheckoutComponentConfig
             if (is_array($orderdata)) {
                 $data = array_merge($data, $orderdata);
             } else {
-                user_error('getData on  ' . $component->name() . ' must return an array');
+                throw new InvalidArgumentException('getData on ' . $component->name() . ' must return an array');
             }
         }
         return $data;
@@ -226,7 +227,7 @@ class CheckoutComponentConfig
                 }
             }
             if (!$dependant) {
-                user_error("Could not find a $dependanttype component, as depended by " . $component->name());
+                throw new InvalidArgumentException("Could not find a $dependanttype component, as depended by " . $component->name());
             }
             $dependantdata = array_merge(
                 $dependantdata,

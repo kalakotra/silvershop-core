@@ -13,6 +13,7 @@ use SilverStripe\Control\HTTPRequest;
 use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
+use SilverStripe\Forms\Validation\RequiredFieldsValidator;
 use SilverStripe\Security\MemberAuthenticator\MemberAuthenticator;
 use SilverStripe\Security\MemberAuthenticator\MemberLoginForm;
 use SilverStripe\Security\Security;
@@ -128,7 +129,7 @@ class Membership extends CheckoutStep
                 )
             )
         );
-        $checkoutForm->getValidator()->addRequiredField('Password');
+        $checkoutForm->setValidator(RequiredFieldsValidator::create(['Password']));
 
         $this->owner->extend('updateCreateAccountForm', $checkoutForm);
         return $checkoutForm;
