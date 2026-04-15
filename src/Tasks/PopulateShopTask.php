@@ -13,7 +13,9 @@ use SilverStripe\Dev\BuildTask;
 use SilverStripe\Dev\FixtureFactory;
 use SilverStripe\Dev\YamlFixture;
 use SilverStripe\ORM\DB;
+use SilverStripe\PolyExecution\PolyOutput;
 use SilverStripe\SiteConfig\SiteConfig;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Populate shop task
@@ -26,7 +28,7 @@ class PopulateShopTask extends BuildTask
 
     private static string $segment = 'PopulateShopTask';
 
-    public function run($request): void
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
         $this->extend('beforePopulate');
 
@@ -156,5 +158,7 @@ class PopulateShopTask extends BuildTask
             $siteconfig->write();
         }
         $this->extend('afterPopulate');
+
+        return 0;
     }
 }

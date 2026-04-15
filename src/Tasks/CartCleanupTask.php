@@ -6,6 +6,8 @@ use LogicException;
 use SilverShop\Model\Order;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\FieldType\DBDatetime;
+use SilverStripe\PolyExecution\PolyOutput;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Cart Cleanup Task.
@@ -29,7 +31,7 @@ class CartCleanupTask extends BuildTask
      */
     protected $description = 'Deletes abandoned carts.';
 
-    public function run($request): void
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
         if (!$this->config()->get('delete_after_mins')) {
             throw new LogicException('No valid time specified in "delete_after_mins"');
@@ -38,7 +40,7 @@ class CartCleanupTask extends BuildTask
         $count = 0;
         $time = date('Y-m-d H:i:s', DBDatetime::now()->getTimestamp() - $this->config()->get('delete_after_mins') * 60);
 
-        $this->log('Deleting all orders since ' . $time);
+        $output->writeln('Deleting all orders since ' . $time);
 
         $dataList = Order::get()->filter(
             [
@@ -47,17 +49,14 @@ class CartCleanupTask extends BuildTask
             ]
         );
         foreach ($dataList as $order) {
-            $this->log(sprintf('Deleting order #%s (Reference: %s)', $order->ID, $order->Reference));
+            $output->writeln(sprintf('Deleting order #%s (Reference: %s)', $order->ID, $order->Reference));
             $order->delete();
             $order->destroy();
             $count++;
         }
 
-        $this->log("$count old carts removed.");
-    }
+        $output->writeln(($count) . ' old carts removed.');
 
-    protected function log(string $msg)
-    {
-        echo $msg . "\n";
+        return 0;
     }
 }

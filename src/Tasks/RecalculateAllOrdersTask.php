@@ -3,8 +3,9 @@
 namespace SilverShop\Tasks;
 
 use SilverShop\Model\Order;
-use SilverStripe\Control\Director;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\PolyExecution\PolyOutput;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Recalculate All Orders
@@ -18,21 +19,21 @@ class RecalculateAllOrdersTask extends BuildTask
 
     protected $description = 'Runs all price calculation functions on all orders.';
 
-    public function run($request): void
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
-        $br = Director::is_cli() ? "\n" : '<br/>';
-
         //TODO: include order total calculation, once that gets written
         //TODO: figure out how to make this run faster
         //TODO: better memory managment...the destroy calls are not enough it appears.
 
         if ($orders = Order::get()) {
-            echo $br . 'Writing all order items ';
+            $output->writeln('Writing all order items');
             foreach ($orders as $order) {
                 $order->calculate();
                 $order->write();
             }
-            echo $br . 'done.' . $br;
+            $output->writeln('done.');
         }
+
+        return 0;
     }
 }

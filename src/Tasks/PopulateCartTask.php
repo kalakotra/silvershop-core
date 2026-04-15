@@ -7,8 +7,10 @@ use SilverShop\Page\CheckoutPage;
 use SilverShop\Page\Product;
 use SilverStripe\Control\Controller;
 use SilverStripe\Dev\BuildTask;
+use SilverStripe\PolyExecution\PolyOutput;
 use SilverStripe\Security\Security;
 use SilverStripe\Versioned\Versioned;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Add 5 random Live products to cart, with random quantities between 1 and 10.
@@ -19,10 +21,10 @@ class PopulateCartTask extends BuildTask
 
     protected $description = 'Add 5 random Live products or variations to cart, with random quantities between 1 and 10.';
 
-    public function run($request): void
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
         $shoppingCart = ShoppingCart::singleton();
-        $count = $request->getVar('count') ? $request->getVar('count') : 5;
+        $count = $input->getOption('count') ? (int)$input->getOption('count') : 5;
         if ($products = Versioned::get_by_stage(Product::class, 'Live', '', 'RAND()', '', $count)) {
             foreach ($products as $product) {
                 $variations = $product->Variations();
@@ -36,5 +38,7 @@ class PopulateCartTask extends BuildTask
             }
         }
         Controller::curr()->redirect(CheckoutPage::find_link());
+
+        return 0;
     }
 }

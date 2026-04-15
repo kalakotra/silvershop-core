@@ -5,6 +5,8 @@ namespace SilverShop\Tasks;
 use SilverShop\Page\Product;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\DB;
+use SilverStripe\PolyExecution\PolyOutput;
+use Symfony\Component\Console\Input\InputInterface;
 
 class CalculateProductPopularity extends BuildTask
 {
@@ -14,14 +16,16 @@ class CalculateProductPopularity extends BuildTask
 
     private static string $number_sold_calculation_type = 'SUM'; //SUM or COUNT
 
-    public function run($request): void
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
-        if ($request->getVar('via') == 'php') {
+        if ($input->getOption('via') === 'php') {
             $this->viaphp();
         } else {
             $this->viasql();
         }
-        echo 'product sales counts updated';
+        $output->writeln('product sales counts updated');
+
+        return 0;
     }
 
     /**

@@ -6,7 +6,9 @@ use SilverShop\Extension\ShopConfigExtension;
 use SilverStripe\Dev\BuildTask;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\DB;
+use SilverStripe\PolyExecution\PolyOutput;
 use SilverStripe\Security\Member;
+use Symfony\Component\Console\Input\InputInterface;
 
 /**
  * Adds all customers to an assigned group.
@@ -20,16 +22,17 @@ class CustomersToGroupTask extends BuildTask
 
     protected $description = 'Adds all customers to an assigned group.';
 
-    public function run($request): void
+    protected function execute(InputInterface $input, PolyOutput $output): int
     {
         $gp = ShopConfigExtension::current()->CustomerGroup();
         if (!$gp->exists()) {
-            die(
+            $output->writeln(
                 _t(
                     'SilverShop\Task\CustomersToGroupTask.DefaultCustomerGroupRequired',
                     'Default Customer Group required'
                 )
             );
+            return 1;
         }
 
         $query = DB::query(
@@ -57,13 +60,17 @@ class CustomersToGroupTask extends BuildTask
             $existingMembers = $gp->Members();
             foreach ($dataList as $member) {
                 $existingMembers->add($member);
-                echo '.';
+                $output->write('.');
             }
         } else {
-            echo _t(
-                'SilverShop\Task\CustomersToGroupTask.NoNewMembersAdded',
-                'No new members added'
+            $output->writeln(
+                _t(
+                    'SilverShop\Task\CustomersToGroupTask.NoNewMembersAdded',
+                    'No new members added'
+                )
             );
         }
+
+        return 0;
     }
 }
