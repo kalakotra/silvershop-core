@@ -24,7 +24,7 @@
     "php": "^8.3",
     "silverstripe/cms": "^6",
     "silverstripe/asset-admin": "*",
-    "silverstripe/silverstripe-omnipay": "^5",
+    "silverstripe/silverstripe-omnipay": "^6",
     "silvershop/silverstripe-listsorter": "^3 || ^4",
     "silvershop/silverstripe-sqlquerylist": "^3 || ^4",
     "symbiote/silverstripe-gridfieldextensions": "^5"
