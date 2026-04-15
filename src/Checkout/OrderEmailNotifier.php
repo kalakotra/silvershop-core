@@ -198,7 +198,7 @@ class OrderEmailNotifier
                 ShopConfigExtension::config()->email_from ? ShopConfigExtension::config()->email_from : Email::config()->admin_email
             )
             ->setTo(Email::config()->admin_email)
-            ->setBody($this->order->renderWith(Order::class));
+            ->html((string)$this->order->renderWith(Order::class));
 
         if ($this->debugMode) {
             return $this->debug($email);

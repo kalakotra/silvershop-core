@@ -42,7 +42,7 @@ class OrdersAdmin extends ModelAdmin
     {
         $list = parent::getList();
 
-        if ($this->modelClass == Order::class) {
+        if ($this->getModelClass() == Order::class) {
             // Exclude hidden statuses
             $list = $list->exclude('Status', Order::config()->hidden_status);
             $this->extend('updateList', $list);
@@ -57,11 +57,11 @@ class OrdersAdmin extends ModelAdmin
     public function getEditForm($id = null, $fields = null): Form
     {
         $form = parent::getEditForm($id, $fields);
-        if ($this->modelClass == Order::class) {
+        if ($this->getModelClass() == Order::class) {
             /** @var GridFieldConfig $config */
             $config = $form
                 ->Fields()
-                ->fieldByName($this->sanitiseClassName($this->modelClass))
+                ->fieldByName($this->sanitiseClassName($this->getModelClass()))
                 ->getConfig();
 
             $config
@@ -73,11 +73,11 @@ class OrdersAdmin extends ModelAdmin
                 ->setItemRequestClass(OrderGridFieldDetailForm_ItemRequest::class); //see below
         }
 
-        if ($this->modelClass == OrderStatusLog::class) {
+        if ($this->getModelClass() == OrderStatusLog::class) {
             /** @var GridFieldConfig $config */
             $config = $form
                 ->Fields()
-                ->fieldByName($this->sanitiseClassName($this->modelClass))
+                ->fieldByName($this->sanitiseClassName($this->getModelClass()))
                 ->getConfig();
 
             // Remove add new button
