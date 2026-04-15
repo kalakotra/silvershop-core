@@ -14,7 +14,8 @@ use SilverShop\ShopTools;
 use SilverStripe\Core\Config\Config;
 use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Injector\Injectable;
-use SilverStripe\ORM\ValidationException;
+use SilverStripe\Core\Validation\ValidationException;
+use SilverStripe\ORM\DataObject;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\Security;
 
@@ -310,12 +311,15 @@ class ShoppingCart
             $buyable = $this->getCorrectBuyable($buyable);
 
             if (!$buyable->canPurchase($member, $quantity)) {
+                $title = $buyable instanceof DataObject
+                    ? $buyable->i18n_singular_name()
+                    : Buyable::class;
                 return $this->error(
                     _t(
                         __CLASS__ . '.CannotPurchase',
                         'This {Title} cannot be purchased.',
                         '',
-                        ['Title' => $buyable->i18n_singular_name()]
+                        ['Title' => $title]
                     )
                 );
                 //TODO: produce a more specific message
@@ -359,6 +363,9 @@ class ShoppingCart
         }
 
         $relationship = Config::inst()->get($itemClass, 'buyable_relationship');
+        if (!$buyable instanceof DataObject) {
+            return $this->error(_t(__CLASS__ . '.ItemNotFound', 'Item not found.'));
+        }
         $filter[$relationship . 'ID'] = $buyable->ID;
         $required = ['OrderID', $relationship . 'ID'];
 

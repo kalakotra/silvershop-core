@@ -7,7 +7,6 @@ use Page;
 use SilverShop\Cart\ShoppingCart;
 use SilverShop\Cart\ShoppingCartController;
 use SilverShop\Extension\ProductVariationsExtension;
-use SilverShop\Forms\AddProductForm;
 use SilverShop\Model\Buyable;
 use SilverShop\Model\Order;
 use SilverShop\Model\Product\OrderItem;
@@ -451,6 +450,7 @@ class Product extends Page implements Buyable
      */
     public function Image(): ?Image
     {
+        /** @var Image|null $image */
         $image = $this->getComponent('Image');
         $this->extend('updateImage', $image);
 

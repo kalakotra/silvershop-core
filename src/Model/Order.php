@@ -22,7 +22,6 @@ use SilverStripe\Forms\GridField\GridField;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\Tab;
 use SilverStripe\Forms\TabSet;
-use SilverStripe\Omnipay\Extensions\Payable;
 use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\ORM\Filters\GreaterThanFilter;
@@ -37,7 +36,6 @@ use SilverStripe\Security\Security;
  * The order class is a databound object for handling Orders
  * within SilverStripe.
  *
- * @mixin Payable
  * @property float $Total
  * @property mixed $Reference
  * @property ?string $Placed
