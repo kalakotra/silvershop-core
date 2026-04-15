@@ -25,7 +25,7 @@
     "silverstripe/cms": "^6",
     "silverstripe/asset-admin": "*",
     "silverstripe/silverstripe-omnipay": "^6",
-    "silvershop/silverstripe-listsorter": "^3 || ^4",
+    "silvershop/silverstripe-listsorter": "*",
     "silvershop/silverstripe-sqlquerylist": "^3 || ^4",
     "symbiote/silverstripe-gridfieldextensions": "^5"
   },
