@@ -5,7 +5,7 @@ namespace SilverShop\Page;
 use PageController;
 use SilverShop\ListSorter\ListSorter;
 use SilverStripe\ORM\DataList;
-use SilverStripe\ORM\PaginatedList;
+use SilverStripe\Model\List\PaginatedList;
 
 class ProductCategoryController extends PageController
 {
