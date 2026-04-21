@@ -41,7 +41,10 @@ class ShopTools
     public static function get_current_locale(): string
     {
         if (class_exists('TractorCow\Fluent\State\FluentState')) {
-            return singleton('TractorCow\Fluent\State\FluentState')->getLocale();
+            $locale = singleton('TractorCow\Fluent\State\FluentState')->getLocale();
+            if ($locale !== null) {
+                return $locale;
+            }
         }
 
         return i18n::get_locale();

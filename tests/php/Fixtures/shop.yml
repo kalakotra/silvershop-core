@@ -71,6 +71,7 @@ SilverShop\Model\Address:
     AddressLine2: Bar
     City: Farmville
     State: New Sandwich
+    PostalCode: 12345
     Country: US
     #MemberID: can't be set, because it is below
   pukekohe:

@@ -14,7 +14,7 @@ use SilverStripe\Forms\FieldList;
 use SilverStripe\Forms\Form;
 use SilverStripe\Forms\FormAction;
 use SilverStripe\Forms\HiddenField;
-use SilverStripe\Forms\RequiredFields;
+use SilverStripe\Forms\Validation\RequiredFieldsValidator;
 use SilverStripe\Security\Member;
 use SilverStripe\Security\MemberAuthenticator\ChangePasswordForm;
 use SilverStripe\Security\MemberAuthenticator\ChangePasswordHandler;
@@ -44,7 +44,7 @@ class AccountPageController extends PageController
     ];
 
     /**
-     * @var Member
+     * @var Member|null
      */
     protected $member;
 
@@ -79,7 +79,7 @@ class AccountPageController extends PageController
         return _t('SilverShop\Page\AccountPage.DefaultTitle', 'Account');
     }
 
-    public function getMember(): Member
+    public function getMember(): ?Member
     {
         return $this->member;
     }
@@ -140,7 +140,7 @@ class AccountPageController extends PageController
         $fieldList = FieldList::create(
             FormAction::create('saveaddress', _t('SilverShop\Model\Address.SaveNew', 'Save New Address'))
         );
-        $requiredFields = RequiredFields::create($singletonaddress->getRequiredFields());
+        $requiredFields = RequiredFieldsValidator::create($singletonaddress->getRequiredFields());
         $form = Form::create($this, 'CreateAddressForm', $fields, $fieldList, $requiredFields);
         $this->extend('updateCreateAddressForm', $form);
         return $form;
