@@ -7,6 +7,8 @@ use SilverShop\Checkout\CheckoutComponentConfig;
 use SilverShop\Checkout\Component\Notes;
 use SilverShop\Checkout\Component\Terms;
 use SilverShop\Forms\PaymentForm;
+use SilverShop\Model\Order;
+use SilverStripe\Control\HTTPResponse_Exception;
 
 class Summary extends CheckoutStep
 {
@@ -25,7 +27,13 @@ class Summary extends CheckoutStep
 
     public function ConfirmationForm(): PaymentForm
     {
-        $checkoutComponentConfig = CheckoutComponentConfig::create(ShoppingCart::curr(), false);
+        $order = ShoppingCart::curr();
+        if (!$order instanceof Order) {
+            // Session/cart might expire between checkout steps; redirect instead of hard-failing on null order.
+            throw new HTTPResponse_Exception($this->owner->redirect($this->owner->Link()));
+        }
+
+        $checkoutComponentConfig = CheckoutComponentConfig::create($order, false);
         $checkoutComponentConfig->addComponent(Notes::create());
         $checkoutComponentConfig->addComponent(Terms::create());
         $this->owner->extend('updateConfirmationComponentConfig', $checkoutComponentConfig);
