@@ -9,8 +9,8 @@ use SilverStripe\Forms\CheckboxField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\TextField;
-use SilverStripe\ORM\ArrayList;
-use SilverStripe\ORM\SS_List;
+use SilverStripe\Model\List\ArrayList;
+use SilverStripe\Model\List\SS_List;
 use SilverStripe\View\SSViewer;
 
 /**
@@ -87,11 +87,9 @@ class CartEditField extends FormField
         // which broke modules like Display_Logic.
         $this->extend('onBeforeRender', $this, $editables, $customcartdata);
 
-        return SSViewer::execute_template(
-            $this->template,
-            $this->cart->customise($customcartdata),
-            ['Editable' => true]
-        );
+        return SSViewer::create($this->template)
+            ->process($this->cart->customise($customcartdata), ['Editable' => true])
+            ->forTemplate();
     }
 
     /**
