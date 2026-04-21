@@ -11,7 +11,6 @@ use SilverStripe\Forms\FormField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\Model\List\ArrayList;
 use SilverStripe\Model\List\SS_List;
-use SilverStripe\View\SSViewer;
 
 /**
  * Field for editing cart/items within a form
@@ -87,8 +86,9 @@ class CartEditField extends FormField
         // which broke modules like Display_Logic.
         $this->extend('onBeforeRender', $this, $editables, $customcartdata);
 
-        return SSViewer::create($this->template)
-            ->process($this->cart->customise($customcartdata), ['Editable' => true])
+        return $this->cart
+            ->customise($customcartdata)
+            ->renderWith($this->template, ['Editable' => true])
             ->forTemplate();
     }
 
