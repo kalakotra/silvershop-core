@@ -193,7 +193,7 @@ class AccountPageController extends PageController
     function deleteaddress(HTTPRequest$httpRequest): ?HTTPResponse
     {
         if (!SecurityToken::inst()->checkRequest($httpRequest)) {
-            return $this->httpError(400);
+            $this->httpError(400);
         }
         // NOTE: we don't want to fully delete the address because it's presumably still
         // attached to an order. Setting MemberID to 0 means it won't show up in the address
@@ -203,7 +203,7 @@ class AccountPageController extends PageController
             $address->MemberID = 0;
             $address->write();
         } else {
-            return $this->httpError(404, 'Address not found');
+            $this->httpError(404, 'Address not found');
         }
         return $this->redirectBack();
     }
@@ -220,7 +220,7 @@ class AccountPageController extends PageController
     function setdefaultbilling(HTTPRequest $httpRequest): HTTPResponse
     {
         if (!SecurityToken::inst()->checkRequest($httpRequest)) {
-            return $this->httpError(400);
+            $this->httpError(400);
         }
         $address = $this->member->AddressBook()->byID((int) $httpRequest->param('ID'));
         if ($address) {
@@ -242,7 +242,7 @@ class AccountPageController extends PageController
     function setdefaultshipping(HTTPRequest $httpRequest): HTTPResponse
     {
         if (!SecurityToken::inst()->checkRequest($httpRequest)) {
-            return $this->httpError(400);
+            $this->httpError(400);
         }
         $address = $this->member->AddressBook()->byID((int) $httpRequest->param('ID'));
         if ($address) {
